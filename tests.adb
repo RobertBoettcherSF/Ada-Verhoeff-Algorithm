@@ -13,14 +13,14 @@ begin
 
    -- TEST 1 - Functionality: Generation
    Put_Line("TEST 1 - Check Digit Generation - Standard");
-   Put_Line("  1.1 Assert generate check digit for '12345' is '9'");
-   Assert (Verhoeff.Generate_Check_Digit("12345") = '9', "Generation Failed");
+   Put_Line("  1.1 Assert generate check digit for '12345' is '1'");
+   Assert (Verhoeff.Generate_Check_Digit("12345") = '1', "Generation Failed");
    Put_Line("      PASS");
 
    -- TEST 2 - Functionality: Validation Correctness
    Put_Line("TEST 2 - Validation - Valid Strings");
-   Put_Line("  2.1 Assert validation of correctly appended '123459' is True");
-   Assert (Verhoeff.Validate("123459") = True, "Validation Failed");
+   Put_Line("  2.1 Assert validation of correctly appended '123451' is True");
+   Assert (Verhoeff.Validate("123451") = True, "Validation Failed");
    Put_Line("      PASS");
 
    -- TEST 3 - Robustness: Single Error Catch
@@ -31,14 +31,14 @@ begin
 
    -- TEST 4 - Robustness: Adjacent Transposition Catch
    Put_Line("TEST 4 - Validation - Detect Adjacent Transposition");
-   Put_Line("  4.1 Assert validation of '123549' is False (from 123459)");
-   Assert (Verhoeff.Validate("123549") = False, "Failed to catch transposition");
+   Put_Line("  4.1 Assert validation of '123541' is False (from 123451)");
+   Assert (Verhoeff.Validate("123541") = False, "Failed to catch transposition");
    Put_Line("      PASS");
 
    -- TEST 5 - Robustness: Twin Error Catch
    Put_Line("TEST 5 - Validation - Detect Twin Error (Repeated elements)");
-   Put_Line("  5.1 Assert validation of '122459' is False");
-   Assert (Verhoeff.Validate("122459") = False, "Failed to catch twin mismatch");
+   Put_Line("  5.1 Assert validation of '122451' is False");
+   Assert (Verhoeff.Validate("122451") = False, "Failed to catch twin mismatch");
    Put_Line("      PASS");
 
    -- TEST 6 - Exception Handling: Alpha Inputs Generation
@@ -95,14 +95,15 @@ begin
 
    -- TEST 10 - Boundary Condition: All Zeros Generation
    Put_Line("TEST 10 - Boundary condition - Zeros Generation");
-   Put_Line("  10.1 Assert generating for '0000' is '0'");
-   Assert (Verhoeff.Generate_Check_Digit("0000") = '0', "Failed to generate for all zeros");
+   Put_Line("  10.1 Assert generating for '0000' is '7'");
+   -- Note: Unlike Luhn, Verhoeff permutation tables make '0000' evaluate to a non-zero check digit ('7').
+   Assert (Verhoeff.Generate_Check_Digit("0000") = '7', "Failed to generate for all zeros");
    Put_Line("      PASS");
 
-   -- TEST 11 - Boundary Condition: All Zeros Validation
+   -- TEST 11 - Boundary Condition: Appended Zeros Validation
    Put_Line("TEST 11 - Boundary condition - Zeros Validation");
-   Put_Line("  11.1 Assert validation for '00000' is True");
-   Assert (Verhoeff.Validate("00000") = True, "Failed to validate all zeros");
+   Put_Line("  11.1 Assert validation for mathematically correct '00007' is True");
+   Assert (Verhoeff.Validate("00007") = True, "Failed to validate correctly appended zero sequence");
    Put_Line("      PASS");
 
    -- TEST 12 - Boundary Condition: Single Digit
